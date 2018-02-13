@@ -1,0 +1,24 @@
+
+
+query selectShipments {
+  description: "Select all shipments"
+  statement:
+      SELECT com.jda.shipment.visibility.Shipment
+}
+
+query selectShipmentsByCarrier {
+  description: "Select all shipments"
+  statement:
+      SELECT com.jda.shipment.visibility.Shipment
+}
+
+query selectShipmentsBySupplier {
+  description: "Select all shipments"
+  statement:
+      SELECT com.jda.shipment.visibility.Shipment
+}
+query selectShipmentsInTransit {
+  description: "Select all shipments"
+  statement:
+      SELECT com.jda.shipment.visibility.Shipment
+}
