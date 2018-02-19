@@ -43,7 +43,7 @@ enum ShipmentStatus {
 enum UnitOfMeasure {
    o UMS_NULL
    o UMS_IMPERIAL
-   o UMS_METRIC
+   o UMS_METRIC  
 }
 /**
  * Shipment leg status
@@ -59,7 +59,7 @@ enum ShipmentLegStatus {
   o DSTS_SL_D_PARTIALLY_POD
   o DSTS_SL_D_POD
   o DSTS_SL_D_CLOSED
-  o DSTS_SL_D_LLPURGED
+  o DSTS_SL_D_LLPURGED  
 }
 /**
  * Load  status
@@ -116,9 +116,9 @@ concept LoggingInfo {
 }
 /**
  * Shipment container information. When appears at the shipment details level
- * then contains information about the container of that shipment details.
- * When appears at shipment level then container agreegated information about
- * the shipment.
+ * then contains information about the container of that shipment details. 
+ * When appears at shipment level then container agreegated information about 
+ * the shipment. 
  */
 concept ShipmentContainerInfo {
   o Double scaledWeight optional
@@ -138,11 +138,11 @@ concept ShipmentContainerInfo {
 }
 
 /**
- * The shipment line with details about quantity and physical dimensions of
- * items being shipped.
+ * The shipment line with details about quantity and physical dimensions of 
+ * items being shipped. 
  */
 concept ShipmentDetails {
-  o String shipmentDetailsId
+  o String shipmentDetailsId 
   o Double itemNumber optional
   o String itemPackageLevelIDCode optional
   o String itemGroupCode optional
@@ -153,17 +153,17 @@ concept ShipmentDetails {
   o Double length optional
   o Double width optional
   o Double height optional
-  o ShipmentContainerInfo shipmentContainerInfo
+  o ShipmentContainerInfo shipmentContainerInfo optional
 }
 
 /**
  * The shipment legs
  */
 concept ShipmentLegs {
-  o String shipmentLegId
-  o Double shipmentSequenceNumber
-  o Location shipFromLocation
-  o Location shipToLocation
+  o String shipmentLegId 
+  o Double shipmentSequenceNumber optional
+  o Location shipFromLocation optional
+  o Location shipToLocation optional
   o DateTime pickupArrivalDateTime optional
   o DateTime pickupDepartureDateTime optional
   o DateTime dropArrivalDateTime optional
@@ -179,22 +179,22 @@ asset Shipment identified by shipmentId {
   o String shipmentId
   o ShipmentStatus shipmentStatus optional
   o FreightTerms freightTerms optional
-  o Location shipFromLocation
-  o Location shipToLocation
+  o Location shipFromLocation optional
+  o Location shipToLocation optional
   o DateTime pickupFromDateTime optional
   o DateTime pickupToDateTime optional
   o DateTime deliveryFromDateTime optional
   o DateTime deliveryToDateTime optional
   o String commodityCode optional
-  o UnitOfMeasure unitOfMeasure
-  o ShipmentContainerInfo shipmentContainerInfo // This is aggregated shipment weight, volume, etc information.
-  o ShipmentDetails[] shipmentDetails // these are individual shipment lines
-  o LoggingInfo loggingInfo
-  o ShipmentLegs[] shipmentLegs
+  o UnitOfMeasure unitOfMeasure optional
+  o ShipmentContainerInfo shipmentContainerInfo optional // This is aggregated shipment weight, volume, etc information.
+  o ShipmentDetails[] shipmentDetails optional // these are individual shipment lines
+  o LoggingInfo loggingInfo optional
+  o ShipmentLegs[] shipmentLegs optional
 }
 
 /**
- * Defines a Load that is going to carry various shipment legs.
+ * Defines a Load that is going to carry various shipment legs. 
  */
 asset Load identified by loadId {
   o String loadId
@@ -204,13 +204,13 @@ asset Load identified by loadId {
   o String currencyCode
   o Double loadChargeAmount
   o ShipmentContainerInfo loadDimInfo // This attribute contains load physical dimension information
-  o LoadStatus loadStatus
+  o LoadStatus loadStatus 
   o Double VerifiedGrossMass optional
-  o String VGMAuthorizer optional
-  o String VGMWeighingMethod optional
+  o String VGMAuthorizer optional 
+  o String VGMWeighingMethod optional 
   o DateTime VGMWeighingDateTime optional
-  o DateTime VGMVerificationDateTime optional
-  o String carrierCode
+  o DateTime VGMVerificationDateTime optional  
+  o String carrierCode 
   o String serviceCode
   o DateTime VesselArrivalDateTime optional
   o DateTime VesselDepartureDateTime optional
@@ -221,7 +221,7 @@ asset Load identified by loadId {
 }
 
 /**
- * Defines a Load that is going to carry various shipment legs.
+ * Defines a Load that is going to carry various shipment legs. 
  */
 asset Booking identified by bookingId {
   o String bookingId
@@ -230,8 +230,8 @@ asset Booking identified by bookingId {
   o UnitOfMeasure unitOfMeasure
   o String currencyCode
   o Double chargeAmount
-  o LoadStatus status
-  o String carrierCode
+  o LoadStatus status 
+  o String carrierCode 
   o String serviceCode
   o DateTime VesselArrivalDateTime optional
   o DateTime VesselDepartureDateTime optional
@@ -270,7 +270,6 @@ event CreateShipmentEvent {
  * An abstract transaction that is related to a Shipment
  */
 abstract transaction ShipmentTransaction {
-    --> Shipment shipment
 }
 
 /**
@@ -288,32 +287,32 @@ abstract transaction BookingTransaction {
 }
 
 /**
- * Create Shipment
+ * Create Shipment 
  */
 transaction CreateShipment extends ShipmentTransaction {
 }
 
 /**
- * Update Shipment
+ * Update Shipment 
  */
 transaction UpdateShipment extends ShipmentTransaction {
 }
 
 /**
- * Create Shipment
+ * Create Shipment 
  */
 transaction CreateLoad extends ShipmentTransaction {
 }
 
 /**
- * Provide Current Location of the load
+ * Provide Current Location of the load 
  */
 transaction CurrentLocationUpdateLoad extends LoadTransaction {
-
+  
 }
 
 /**
- * Provide Current Location of the booking
+ * Provide Current Location of the booking 
  */
 transaction CurrentLocationUpdateBooking extends BookingTransaction {
 }
@@ -330,21 +329,20 @@ transaction CurrentLocationUpdateBooking extends BookingTransaction {
  */
 abstract participant Business identified by uniqueId {
   o String uniqueId
-  o String businessName optional
+  o String businessName optional 
   o String email optional
   o Address address
-  o Double accountBalance optional
 }
 
 /**
- * A Shipper is a type of participant in the network. Shipper owns the shipment and needs
+ * A Shipper is a type of participant in the network. Shipper owns the shipment and needs 
  * the shipment to be transported from one place to another
  */
 participant Shipper extends Business {
 }
 
 /**
- * A Carrier is a type of participant in the network. This participant represents
+ * A Carrier is a type of participant in the network. This participant represents 
  * any carrier irrespective of the transit service it provides.
  */
 participant Carrier extends Business {
@@ -352,8 +350,8 @@ participant Carrier extends Business {
 
 
 /**
- * An Supplier is a type of participant in the network. Supplier supplies the
- * shipment gooods that shipper has ordered.
+ * An Supplier is a type of participant in the network. Supplier supplies the 
+ * shipment gooods that shipper has ordered. 
  */
 participant Supplier extends Business {
 }
